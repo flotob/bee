@@ -1735,6 +1735,28 @@ func TestAnnounceNeighborhoodToNeighbor(t *testing.T) {
 	}
 }
 
+func TestCloseReleasesMetricsStorage(t *testing.T) {
+	t.Parallel()
+
+	dataDir := t.TempDir()
+
+	_, kad, _, _, _ := newTestKademlia(t, nil, nil, kademlia.Options{DataDir: dataDir})
+	if err := kad.Start(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	if err := kad.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	_, kad, _, _, _ = newTestKademlia(t, nil, nil, kademlia.Options{DataDir: dataDir})
+	if err := kad.Start(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+	if err := kad.Close(); err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestIteratorOpts(t *testing.T) {
 	t.Parallel()
 
